@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konversi Bilangan</title>
+    <style>
+        /* ==================================== */
+        /* KODE CSS LENGKAP (Konsisten dengan tema) */
+        /* ==================================== */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #F8F0E3; /* Warna krem */
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            filter: blur(25px);
+            z-index: 0;
+        }
+
+        body::before {
+            width: 180px;
+            height: 180px;
+            top: -70px;
+            left: -70px;
+            transform: rotate(45deg);
+        }
+
+        body::after {
+            width: 150px;
+            height: 150px;
+            bottom: -60px;
+            right: -60px;
+            transform: rotate(-30deg);
+        }
+
+        .container {
+            background-color: #FFFFFF;
+            border-radius: 25px;
+            padding: 35px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 420px;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            color: #8C52FF; /* Ungu */
+            margin-bottom: 5px;
+            font-size: 2.6em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-family: 'Poppins', sans-serif;
+            color: #FF69B4; /* Pink */
+            font-size: 2.6em;
+            margin-top: 0;
+            margin-bottom: 30px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .grid-background {
+            background-image:
+                linear-gradient(to right, #f0f0f0 1px, transparent 1px),
+                linear-gradient(to bottom, #f0f0f0 1px, transparent 1px);
+            background-size: 22px 22px;
+            background-position: 0 0;
+            padding: 25px;
+            border-radius: 18px;
+            margin-bottom: 25px;
+            width: calc(100% - 50px);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .input-group {
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #555;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        select, input[type="text"] { /* Ubah ke type="text" untuk bilangan heksa/biner/oktal */
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 20px;
+            background-color: #E6E6FA; /* Ungu muda */
+            font-size: 1.1em;
+            text-align: center;
+            outline: none;
+            box-sizing: border-box;
+            color: #333;
+            transition: background-color 0.3s ease;
+        }
+
+        select:focus, input[type="text"]:focus {
+            background-color: #d4d4f7;
+        }
+
+        button {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 20px;
+            background-color: #E6E6FA; /* Ungu muda */
+            color: #333;
+            font-size: 1.3em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            outline: none;
+        }
+
+        button:hover {
+            background-color: #d4d4f7;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .result-box {
+            background-color: #E6E6FA;
+            padding: 20px;
+            border-radius: 20px;
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #333;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            word-break: break-word;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        .back-button {
+            background-color: #FF69B4; /* Pink */
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 25px; /* Tambah margin-bottom untuk jarak ke navigasi tambahan */
+            display: inline-block;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button:hover {
+            background-color: #e05e9e;
+            transform: translateY(-2px);
+        }
+
+        /* --- Gaya untuk Navigasi Tambahan --- */
+        .additional-navigation {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed #ddd;
+        }
+
+        .additional-navigation h3 {
+            font-family: 'Poppins', sans-serif;
+            color: #555;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .additional-navigation .nav-button {
+            width: 85%;
+            padding: 12px;
+            border: none;
+            border-radius: 20px;
+            background-color: #E6E6FA;
+            color: #333;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-decoration: none;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1.2;
+        }
+
+        .additional-navigation .nav-button:hover {
+            background-color: #d4d4f7;
+            transform: translateY(-2px);
+        }
+
+        .additional-navigation .nav-button.active-page {
+            background-color: #8C52FF; /* Warna aktif untuk halaman bilangan */
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>KONVERSI</h1>
+        <p class="subtitle">BILANGAN</p>
+
+        <div class="grid-background">
+            <div class="input-group">
+                <label for="fromBase">Dari Basis</label>
+                <select id="fromBase" onchange="updateInputPlaceholder()">
+                    <option value="10">Desimal (Basis 10)</option>
+                    <option value="2">Biner (Basis 2)</option>
+                    <option value="8">Oktal (Basis 8)</option>
+                    <option value="16">Heksadesimal (Basis 16)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="toBase">Ke Basis</label>
+                <select id="toBase" onchange="updateResultPlaceholder()">
+                    <option value="2">Biner (Basis 2)</option>
+                    <option value="10">Desimal (Basis 10)</option>
+                    <option value="8">Oktal (Basis 8)</option>
+                    <option value="16">Heksadesimal (Basis 16)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="numberInput">Masukkan bilangan</label>
+                <input type="text" id="numberInput" placeholder="Contoh: 10 (Desimal)">
+            </div>
+
+            <button onclick="convertNumber()">Konversi</button>
+
+            <div class="result-box" id="result">
+                Hasil dari.... = .....
+            </div>
+        </div>
+
+        <a href="next_page.html" class="back-button">Kembali ke pilihan konversi</a>
+
+        <div class="additional-navigation">
+            <h3>PILIH KONVERTER LAIN:</h3>
+            <a href="konverter_mata_uang_lengkap.html" class="nav-button">
+                KONVERSI <br> MATA UANG
+            </a>
+            <a href="konversi_suhu.html" class="nav-button">
+                KONVERSI <br> SUHU
+            </a>
+            <a href="konversi_bilangan.html" class="nav-button active-page">
+                KONVERSI <br> BILANGAN
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const numberInput = document.getElementById('numberInput');
+        const fromBaseSelect = document.getElementById('fromBase');
+        const toBaseSelect = document.getElementById('toBase');
+        const resultElement = document.getElementById('result');
+
+        function updateInputPlaceholder() {
+            const fromBase = parseInt(fromBaseSelect.value);
+            let placeholderText = "Contoh: ";
+            if (fromBase === 10) {
+                placeholderText += "123 (Desimal)";
+                numberInput.setAttribute('pattern', '^[0-9]*$');
+            } else if (fromBase === 2) {
+                placeholderText += "1011 (Biner)";
+                numberInput.setAttribute('pattern', '^[01]*$');
+            } else if (fromBase === 8) {
+                placeholderText += "765 (Oktal)";
+                numberInput.setAttribute('pattern', '^[0-7]*$');
+            } else if (fromBase === 16) {
+                placeholderText += "A3F (Heksadesimal)";
+                numberInput.setAttribute('pattern', '^[0-9a-fA-F]*$');
+            }
+            numberInput.placeholder = placeholderText;
+            updateResultPlaceholder();
+        }
+
+        function convertNumber() {
+            const numStr = numberInput.value.trim();
+            const fromBase = parseInt(fromBaseSelect.value);
+            const toBase = parseInt(toBaseSelect.value);
+
+            if (!numStr) {
+                resultElement.textContent = "Mohon masukkan bilangan.";
+                return;
+            }
+
+            let decimalValue;
+            try {
+                decimalValue = parseInt(numStr, fromBase);
+                if (isNaN(decimalValue)) {
+                    throw new Error("Input tidak valid untuk basis yang dipilih.");
+                }
+            } catch (e) {
+                resultElement.textContent = "Error: " + e.message;
+                return;
+            }
+
+            let convertedNumber;
+            switch (toBase) {
+                case 10:
+                    convertedNumber = decimalValue.toString(10);
+                    break;
+                case 2:
+                    convertedNumber = decimalValue.toString(2);
+                    break;
+                case 8:
+                    convertedNumber = decimalValue.toString(8);
+                    break;
+                case 16:
+                    convertedNumber = decimalValue.toString(16).toUpperCase();
+                    break;
+                default:
+                    convertedNumber = "Basis tujuan tidak valid.";
+                    break;
+            }
+
+            const fromBaseName = getBaseName(fromBase);
+            const toBaseName = getBaseName(toBase);
+
+            resultElement.textContent = `Hasil dari ${numStr} (Basis ${fromBaseName}) = ${convertedNumber} (Basis ${toBaseName})`;
+        }
+
+        function getBaseName(base) {
+            switch (base) {
+                case 10: return "Desimal";
+                case 2: return "Biner";
+                case 8: return "Oktal";
+                case 16: return "Heksadesimal";
+                default: return "";
+            }
+        }
+
+        function updateResultPlaceholder() {
+            resultElement.textContent = "Hasil dari.... = .....";
+        }
+
+        document.addEventListener('DOMContentLoaded', updateInputPlaceholder);
+    </script>
+</body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konversi Mata Uang</title>
+    <style>
+        /* ==================================== */
+        /* KODE CSS LENGKAP */
+        /* ==================================== */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #F8F0E3; /* Warna krem */
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            filter: blur(25px);
+            z-index: 0;
+        }
+
+        body::before {
+            width: 180px;
+            height: 180px;
+            top: -70px;
+            left: -70px;
+            transform: rotate(45deg);
+        }
+
+        body::after {
+            width: 150px;
+            height: 150px;
+            bottom: -60px;
+            right: -60px;
+            transform: rotate(-30deg);
+        }
+
+        .container {
+            background-color: #FFFFFF;
+            border-radius: 25px;
+            padding: 35px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 420px;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            color: #8C52FF; /* Ungu */
+            margin-bottom: 5px;
+            font-size: 2.6em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-family: 'Poppins', sans-serif;
+            color: #FF69B4; /* Pink */
+            font-size: 2.6em;
+            margin-top: 0;
+            margin-bottom: 30px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .grid-background {
+            background-image:
+                linear-gradient(to right, #f0f0f0 1px, transparent 1px),
+                linear-gradient(to bottom, #f0f0f0 1px, transparent 1px);
+            background-size: 22px 22px;
+            background-position: 0 0;
+            padding: 25px;
+            border-radius: 18px;
+            margin-bottom: 25px;
+            width: calc(100% - 50px);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .input-group {
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #555;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 20px;
+            background-color: #E6E6FA; /* Ungu muda */
+            font-size: 1.1em;
+            text-align: center;
+            outline: none;
+            box-sizing: border-box;
+            color: #333;
+            transition: background-color 0.3s ease;
+        }
+
+        select:focus, input[type="number"]:focus {
+            background-color: #d4d4f7;
+        }
+
+        button {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 20px;
+            background-color: #E6E6FA; /* Ungu muda */
+            color: #333;
+            font-size: 1.3em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            outline: none;
+        }
+
+        button:hover {
+            background-color: #d4d4f7;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .result-box {
+            background-color: #E6E6FA;
+            padding: 20px;
+            border-radius: 20px;
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #333;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            word-break: break-word;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        .back-button {
+            background-color: #FF69B4; /* Pink */
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 25px; /* Tambah margin-bottom untuk jarak ke navigasi tambahan */
+            display: inline-block;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button:hover {
+            background-color: #e05e9e;
+            transform: translateY(-2px);
+        }
+
+        /* Style untuk opsi mode konversi (mirip di next_page.html) */
+        .mode-selection {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .mode-selection button {
+            width: 48%;
+            padding: 12px;
+            font-size: 1em;
+            background-color: #d4d4f7;
+            color: #333;
+        }
+
+        .mode-selection button.active {
+            background-color: #8C52FF;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* --- Gaya untuk Navigasi Tambahan --- */
+        .additional-navigation {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed #ddd;
+        }
+
+        .additional-navigation h3 {
+            font-family: 'Poppins', sans-serif;
+            color: #555;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .additional-navigation .nav-button {
+            width: 85%;
+            padding: 12px;
+            border: none;
+            border-radius: 20px;
+            background-color: #E6E6FA;
+            color: #333;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-decoration: none;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1.2;
+        }
+
+        .additional-navigation .nav-button:hover {
+            background-color: #d4d4f7;
+            transform: translateY(-2px);
+        }
+
+        .additional-navigation .nav-button.active-page {
+            background-color: #FF69B4; /* Warna aktif (pink) untuk halaman mata uang */
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>KONVERSI</h1>
+        <p class="subtitle">MATA UANG</p>
+
+        <div class="grid-background">
+            <div class="mode-selection">
+                <button id="mode1Btn" onclick="selectMode(1)" class="active">VALAS ke IDR</button>
+                <button id="mode2Btn" onclick="selectMode(2)">IDR ke VALAS</button>
+            </div>
+
+            <div class="input-group">
+                <label for="currencySelect">Pilih mata uang</label>
+                <select id="currencySelect" onchange="updatePlaceholder()">
+                    </select>
+            </div>
+
+            <div class="input-group">
+                <label for="amountInput">Masukkan jumlah</label>
+                <input type="number" id="amountInput" placeholder="Contoh: 100000" min="0">
+            </div>
+
+            <button onclick="convertCurrency()">Konversi</button>
+
+            <div class="result-box" id="result">
+                Hasil dari.... = .....
+            </div>
+        </div>
+
+        <a href="next_page.html" class="back-button">Kembali ke pilihan konversi</a>
+
+        <div class="additional-navigation">
+            <h3>PILIH KONVERTER LAIN:</h3>
+            <a href="konverter_mata_uang_lengkap.html" class="nav-button active-page">
+                KONVERSI <br> MATA UANG
+            </a>
+            <a href="konversi_suhu.html" class="nav-button">
+                KONVERSI <br> SUHU
+            </a>
+            <a href="konversi_bilangan.html" class="nav-button">
+                KONVERSI <br> BILANGAN
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const mataUang = ["USD", "EUR", "MYR", "CNY", "KRW", "JPY"];
+        const kursData = {
+            "USD": 15500,
+            "EUR": 17000,
+            "MYR": 3300,
+            "CNY": 2200,
+            "KRW": 12,
+            "JPY": 110
+        };
+
+        let currentMode = 1; // 1 = VALAS ke IDR, 2 = IDR ke VALAS
+
+        const currencySelect = document.getElementById('currencySelect');
+        const amountInput = document.getElementById('amountInput');
+        const resultElement = document.getElementById('result');
+        const mode1Btn = document.getElementById('mode1Btn');
+        const mode2Btn = document.getElementById('mode2Btn');
+
+        function populateCurrencyOptions() {
+            currencySelect.innerHTML = '';
+            mataUang.forEach((currencyCode, index) => {
+                const option = document.createElement('option');
+                option.value = currencyCode;
+                option.textContent = currencyCode;
+                currencySelect.appendChild(option);
+            });
+            updatePlaceholder();
+        }
+
+        function selectMode(mode) {
+            currentMode = mode;
+            if (mode === 1) {
+                mode1Btn.classList.add('active');
+                mode2Btn.classList.remove('active');
+            } else {
+                mode2Btn.classList.add('active');
+                mode1Btn.classList.remove('active');
+            }
+            updatePlaceholder();
+        }
+
+        function updatePlaceholder() {
+            const selectedCurrency = currencySelect.value;
+            if (currentMode === 1) {
+                amountInput.placeholder = `Contoh: 100 (${selectedCurrency})`;
+                document.querySelector('.input-group label[for="amountInput"]').textContent = 'Masukkan jumlah';
+            } else {
+                amountInput.placeholder = `Contoh: 100000 (IDR)`;
+                document.querySelector('.input-group label[for="amountInput"]').textContent = 'Masukkan jumlah IDR';
+            }
+        }
+
+        function convertCurrency() {
+            const selectedCurrency = currencySelect.value;
+            const amount = parseFloat(amountInput.value);
+
+            if (isNaN(amount) || amount <= 0) {
+                resultElement.textContent = "Mohon masukkan jumlah yang valid.";
+                return;
+            }
+
+            const currentKurs = kursData[selectedCurrency];
+            let hasil = 0;
+            let outputText = '';
+
+            if (currentMode === 1) {
+                hasil = amount * currentKurs;
+                outputText = `${amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${selectedCurrency} = ${hasil.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} IDR`;
+            } else {
+                hasil = amount / currentKurs;
+                outputText = `${amount.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} IDR = ${hasil.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${selectedCurrency}`;
+            }
+
+            resultElement.textContent = outputText;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            populateCurrencyOptions();
+            selectMode(1);
+        });
+
+        document.querySelector('.back-button').addEventListener('click', function(e) {
+            // e.preventDefault(); // Tidak perlu preventDefault jika ingin langsung navigasi
+            // alert("Ini adalah tombol 'Kembali ke halaman sebelumnya'. Anda bisa mengatur URL di atribut 'href'.");
+        });
+    </script>
+</body>
+</html>
