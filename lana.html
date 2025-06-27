@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+ <html lang="id">
+ <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Scrapbook Penyemangat Lana</title>
+      <style>
+            /* Font dari Google Fonts - Menggunakan Playfair Display */
+            @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+ 
+            body {
+                  margin: 0;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  min-height: 100vh;
+                  background-color: #F8F0E3; /* Background soft cream/putih */
+                  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Font default untuk elemen lain */
+                  overflow: hidden; /* Sembunyikan scrollbar horizontal */
+            }
+ 
+            .slider-container {
+                  width: 90%; /* Lebar kontainer slider, sesuaikan untuk proporsi seperti gambar */
+                  max-width: 400px; /* Batasi lebar maksimum */
+                  height: 60vh; /* Tinggi kontainer slider, sesuaikan untuk proporsi seperti gambar */
+                  max-height: 600px; /* Batasi tinggi maksimum */
+                  overflow: hidden; /* Sembunyikan konten di luar area */
+                  position: relative;
+                  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                  border-radius: 15px;
+            }
+ 
+            .slider {
+                  display: flex;
+                  transition: transform 0.5s ease-in-out; /* Efek transisi saat slide */
+                  height: 100%; /* Slider mengambil tinggi penuh dari container */
+            }
+ 
+            .page {
+                  flex: 0 0 100%; /* Setiap halaman mengambil 100% lebar slider-container */
+                  height: 100%; /* Setiap halaman mengambil 100% tinggi slider-container */
+                  background-color: #FFFFFF; /* Warna putih untuk kertas */
+                  border-radius: 10px;
+                  padding: 25px 20px; /* Padding untuk konten */
+                  box-sizing: border-box; /* Pastikan padding dihitung dalam lebar/tinggi */
+                  
+                  display: flex; /* Menggunakan Flexbox untuk pemusatan */
+                  flex-direction: column; /* Konten disusun vertikal */
+                  justify-content: center; /* Pusat vertikal */
+                  align-items: center; /* Pusat horizontal */
+                  text-align: center; /* Teks di dalam elemen ini terpusat */
+ 
+                  position: relative;
+                  /* Grid seperti kertas */
+                  background-image:
+                        linear-gradient(to right, #f0f0f0 1px, transparent 1px),
+                        linear-gradient(to bottom, #f0f0f0 1px, transparent 1px);
+                  background-size: 20px 20px; /* Ukuran kotak grid */
+            }
+ 
+            .date {
+                  position: absolute;
+                  top: 25px;
+                  left: 20px;
+                  font-size: 0.9em;
+                  color: #888;
+                  z-index: 1;
+                  text-align: left; /* Pastikan "Date:" rata kiri */
+            }
+ 
+            .text-content {
+                  text-align: center; /* Pastikan teks di dalam sini terpusat */
+                  width: 100%; /* Ambil lebar penuh untuk pemusatan horizontal */
+            }
+ 
+            .text-content p {
+                  margin: 10px 0;
+                  font-size: 1.1em;
+                  line-height: 1.5;
+                  color: #333;
+                  word-wrap: break-word;
+                  overflow-wrap: break-word;
+            }
+ 
+            .handwriting {
+                  font-family: 'Playfair Display', serif; /* FONT DIGANTI DI SINI */
+                  font-size: 1.4em;
+                  color: #555;
+                  line-height: 1.6;
+            }
+            /* Anda juga bisa menambahkan ukuran font yang lebih besar untuk Happy Birthday */
+            .handwriting.large {
+                  font-size: 2.5em; /* Contoh ukuran lebih besar */
+            }
+ 
+ 
+            .pink-text {
+                  color: #FF69B4;
+            }
+ 
+            .red-heart {
+                  color: #FF0000;
+                  font-size: 2.5em;
+                  line-height: 1;
+            }
+ 
+            .envelope {
+                  width: 120px;
+                  height: 80px;
+                  background-color: #fff;
+                  border: 2px solid #ccc;
+                  position: relative;
+                  margin: 20px auto; /* Pusatkan amplop secara horizontal */
+                  transform: rotate(-5deg);
+                  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+ 
+            .envelope::before {
+                  content: '';
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  width: 0;
+                  height: 0;
+                  border-left: 60px solid transparent;
+                  border-right: 60px solid transparent;
+                  border-top: 40px solid #f0f0f0;
+            }
+ 
+            .envelope::after {
+                  content: '';
+                  position: absolute;
+                  bottom: 0;
+                  left: 0;
+                  width: 0;
+                  height: 0;
+                  border-left: 60px solid #f0f0f0;
+                  border-right: 60px solid #f0f0f0;
+                  border-bottom: 40px solid transparent;
+            }
+ 
+            .envelope .heart {
+                  position: absolute;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                  font-size: 2em;
+                  color: #FF69B4;
+            }
+ 
+            .calendar {
+                  display: grid;
+                  grid-template-columns: repeat(7, 1fr);
+                  gap: 5px;
+                  width: 100%;
+                  max-width: 320px;
+                  margin: 20px auto; /* Pusatkan kalender secara horizontal */
+                  text-align: center;
+            }
+ 
+            .calendar .day-name,
+            .calendar .date-num {
+                  padding: 8px 0;
+                  box-sizing: border-box;
+            }
+ 
+            .calendar .day-name {
+                  font-weight: bold;
+                  color: #555;
+            }
+ 
+            .calendar .date-num.highlight {
+                  background-color: #FF69B4;
+                  color: white;
+                  font-weight: bold;
+                  border-radius: 50%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  width: 30px;
+                  height: 30px;
+                  margin: auto;
+            }
+ 
+            .balloons {
+                  margin-top: 20px;
+                  position: relative;
+                  display: flex;
+                  justify-content: center; /* Pusatkan balon secara horizontal */
+                  align-items: flex-end;
+                  height: 100px;
+                  width: 100%;
+            }
+ 
+            .balloon {
+                  display: inline-block;
+                  width: 50px;
+                  height: 60px;
+                  background-color: #FF69B4;
+                  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+                  position: relative;
+                  margin: 0 10px;
+                  box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+            }
+ 
+            .balloon::after {
+                  content: '';
+                  position: absolute;
+                  bottom: -5px;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  width: 0;
+                  height: 0;
+                  border-left: 5px solid transparent;
+                  border-right: 5px solid transparent;
+                  border-top: 10px solid #FF69B4;
+            }
+ 
+            .balloon-string {
+                  position: absolute;
+                  top: 100%;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  width: 1px;
+                  height: 40px;
+                  background-color: #888;
+            }
+ 
+            .next-prev-buttons {
+                  position: absolute;
+                  top: 50%;
+                  width: 100%;
+                  display: flex;
+                  justify-content: space-between;
+                  transform: translateY(-50%);
+                  padding: 0 10px;
+                  box-sizing: border-box;
+                  pointer-events: none;
+                  z-index: 10;
+            }
+ 
+            .next-prev-buttons button {
+                  background-color: rgba(255, 255, 255, 0.7);
+                  border: none;
+                  padding: 10px 15px;
+                  font-size: 1.5em;
+                  cursor: pointer;
+                  border-radius: 50%;
+                  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                  color: #FF69B4;
+                  pointer-events: all;
+                  transition: background-color 0.3s;
+            }
+ 
+            .next-prev-buttons button:hover {
+                  background-color: rgba(255, 255, 255, 0.9);
+            }
+            
+            /* CSS tambahan untuk elemen baru */
+            .emoji {
+                font-size: 2em;
+                margin-top: 10px;
+            }
+
+            .rainbow-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 20px;
+            }
+
+            .rainbow {
+                width: 150px;
+                height: 75px;
+                background: linear-gradient(to right, red 0% 16.6%, orange 16.6% 33.2%, yellow 33.2% 49.8%, green 49.8% 66.4%, blue 66.4% 83%, indigo 83% 100%);
+                border-radius: 75px 75px 0 0;
+                position: relative;
+                overflow: hidden;
+                margin-bottom: 10px;
+            }
+
+            .rainbow::after {
+                content: '';
+                position: absolute;
+                top: 10px; /* Adjust to control the thickness of the rainbow arc */
+                left: 10px;
+                right: 10px;
+                bottom: 0;
+                background: white; /* Color to create the arc effect */
+                border-radius: 70px 70px 0 0;
+            }
+
+            .hourglass-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 20px;
+            }
+
+            .hourglass {
+                width: 80px;
+                height: 120px;
+                border: 2px solid #555;
+                border-radius: 10px;
+                position: relative;
+                background-color: #f0f0f0;
+            }
+
+            .hourglass::before,
+            .hourglass::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                right: 0;
+                background-color: #FF69B4; /* Sand color */
+            }
+
+            .hourglass::before {
+                top: 0;
+                height: 50%;
+                border-bottom: 2px solid #555;
+                border-radius: 10px 10px 0 0;
+            }
+
+            .hourglass::after {
+                bottom: 0;
+                height: 50%;
+                border-top: 2px solid #555;
+                border-radius: 0 0 10px 10px;
+            }
+
+            .hourglass .sand-top {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 50%;
+                background-color: #FF69B4; /* Top sand color */
+                border-radius: 8px 8px 0 0;
+                z-index: 1;
+            }
+
+            .hourglass .sand-bottom {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 50%;
+                background-color: #FF69B4; /* Bottom sand color */
+                border-radius: 0 0 8px 8px;
+                z-index: 1;
+            }
+            .hourglass .heart-inside {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 1.5em;
+                color: white; /* Heart color inside hourglass */
+                z-index: 2;
+            }
+
+            /* Decorative elements for the "Aku emang kecil..." slide */
+            .angry-emoji {
+                font-size: 3em;
+                margin-top: 20px;
+            }
+
+            /* Decorative elements for the "Nanti kalo bumi jahat..." slide */
+            .support-deco {
+                position: absolute;
+                font-size: 1.5em;
+                color: #FF69B4;
+            }
+            .support-deco.top-left { top: 30px; left: 30px; transform: rotate(-15deg); }
+            .support-deco.top-right { top: 40px; right: 30px; transform: rotate(10deg); }
+            .support-deco.bottom-left { bottom: 30px; left: 40px; transform: rotate(5deg); }
+            .support-deco.bottom-right { bottom: 50px; right: 40px; transform: rotate(-20deg); }
+            .paper-plane {
+                font-size: 2em;
+                margin-top: 15px;
+                display: block;
+                transform: rotate(45deg);
+            }
+
+            /* Responsive */
+            @media (max-width: 600px) {
+                  .slider-container {
+                        width: 95%; /* Lebih lebar di mobile */
+                        height: 70vh; /* Sesuaikan tinggi untuk mobile */
+                  }
+                  .page {
+                        padding: 20px 15px;
+                  }
+                  .handwriting {
+                        font-size: 1.2em; /* Sesuaikan ukuran font untuk mobile */
+                  }
+                  .handwriting.large {
+                        font-size: 2em; /* Sesuaikan ukuran large font untuk mobile */
+                  }
+                  .text-content p {
+                        font-size: 1em;
+                  }
+                  .envelope {
+                        width: 100px;
+                        height: 70px;
+                  }
+                  .envelope::before {
+                        border-left: 50px solid transparent;
+                        border-right: 50px solid transparent;
+                        border-top: 35px solid #f0f0f0;
+                  }
+                  .envelope::after {
+                        border-left: 50px solid #f0f0f0;
+                        border-right: 50px solid #f0f0f0;
+                        border-bottom: 35px solid transparent;
+                  }
+                  .balloon {
+                        width: 40px;
+                        height: 50px;
+                        margin: 0 5px;
+                  }
+                  .date {
+                        top: 15px;
+                        left: 15px;
+                  }
+                  .calendar {
+                         max-width: none;
+                        width: 100%;
+                  }
+                  .calendar .day-name,
+                  .calendar .date-num {
+                        font-size: 0.9em;
+                  }
+            }
+      </style>
+ </head>
+ <body>
+ 
+      <div class="slider-container">
+            <div class="slider" id="slider">
+                  <div class="page">
+                        <p class="date">Date:</p>
+                        <div class="text-content">
+                              <p class="handwriting">Hai Lanaaaa ...</p>
+                              <p class="handwriting">Aku kasih buku digital ini</p>
+                              <p class="handwriting">buat kamu</p>
+                              <p class="handwriting">Jangan lupa dibaca ya ...</p>
+                              <br>
+                              <p class="handwriting pink-text">special gift</p>
+                              <p class="red-heart">🍂</span></p>
+                        </div>
+                  </div>
+ 
+                  <div class="page">
+                        <p class="date">Date:</p>
+                        <div class="text-content">
+                              <p class="handwriting">This is for</p>
+                              <p class="handwriting">you</p>
+                              <div class="envelope">
+                                    <span class="heart">🍁</span> </div>
+                              <p class="handwriting">My Favorite</p>
+                              <p class="handwriting">Friend</p> </div>
+                  </div>
+ 
+                  <div class="page">
+                        <p class="date">Date:</p>
+                        <div class="text-content">
+                              <p class="handwriting large">Jangan sedih</p>
+                              <p class="handwriting large">Yaa??</p>
+                              <div class="balloons">
+                                    <div class="balloon"><div class="balloon-string"></div></div>
+                                    <div class="balloon"><div class="balloon-string"></div></div>
+                                    <div class="balloon"><div class="balloon-string"></div></div>
+                              </div>
+                        </div>
+                  </div>
+ 
+                  <div class="page">
+                        <p class="date">Date:</p>
+                        <div class="text-content">
+                              <p class="handwriting large">Juni</p>
+                              <div class="calendar">
+                                    <div class="day-name">Sen</div>
+                                    <div class="day-name">Sel</div>
+                                    <div class="day-name">Rab</div>
+                                    <div class="day-name">Kam</div>
+                                    <div class="day-name">Jum</div>
+                                    <div class="day-name">Sab</div>
+                                    <div class="day-name">Min</div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div class="date-num">1</div>
+                                    <div class="date-num">2</div>
+                                    <div class="date-num">3</div>
+                                    <div class="date-num">4</div>
+                                    <div class="date-num">5</div>
+                                    <div class="date-num">6</div>
+                                    <div class="date-num">7</div>
+                                    <div class="date-num">8</div>
+                                    <div class="date-num">9</div>
+                                    <div class="date-num">10</div>
+                                    <div class="date-num">11</div>
+                                    <div class="date-num">12</div>
+                                    <div class="date-num">13</div>
+                                    <div class="date-num">14</div>
+                                    <div class="date-num">15</div>
+                                    <div class="date-num">16</div>
+                                    <div class="date-num">17</div>
+                                    <div class="date-num">18</div>
+                                    <div class="date-num">19</div>
+                                    <div class="date-num">20</div>
+                                    <div class="date-num">21</div>
+                                    <div class="date-num">22</div>
+                                    <div class="date-num">23</div>
+                                    <div class="date-num">24</div>
+                                    <div class="date-num">25</div>
+                                    <div class="date-num">26</div>
+                                    <div class="date-num highlight">27</div> <div class="date-num">28</div>
+                                    <div class="date-num">29</div>
+                                    <div class="date-num">30</div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                              </div>
+                              <p class="handwriting">27 Juni <span class="red-heart">🍁</span></p>
+                        </div>
+                  </div>
+ 
+                  <div class="page">
+                        <p class="date">Date:</p>
+                        <div class="text-content">
+                            <p class="handwriting">oh iya ^ ^</p>
+                            <p class="handwriting large">Kemarin kamu sedih ya?</p>
+                            <p class="handwriting large">Gaboleee sedih lama lama</p>
+                            <p class="handwriting">Lanaaa...</p>
+                            <p class="handwriting">Aku tau kok, mungkin kamu ngerasa dunia itu nyebelin</p>
+                            <p class="handwriting">Tapi tenang aja, di dunia nyebelin ini kamu gabakal sendirian</p>
+                            <div class="balloons">
+                                <div class="balloon" style="background-color: #FF0000;"><div class="balloon-string"></div></div> <div class="balloon" style="background-color: #FF0000;"><div class="balloon-string"></div></div> </div>
+                        </div>
+                  </div>
+
+                  <div class="page">
+                      <p class="date">Date:</p>
+                      <div class="text-content">
+                          <p class="handwriting">Aku emang kecil</p>
+                          <p class="handwriting">tapi aku <span class="pink-text">pemberani</span></p>
+                          <p class="handwriting">Jadi kalau bumi <span class="red-heart">🌍</span></p>
+                          <p class="handwriting"><span class="red-heart">Jahat</span> sama kamu</p>
+                          <p class="handwriting">bilang aja ke aku 👯‍♀️</p>
+                          <p class="handwriting">biar nanti aku marahin.</p>
+                          <p class="angry-emoji">😡</p>
+                          <p class="handwriting pink-text" style="font-size: 0.9em;">Pergi!</p>
+                          <p class="handwriting pink-text" style="font-size: 0.9em;">Hush!</p>
+                          <p class="handwriting pink-text" style="font-size: 0.9em;">Hush!</p>
+                      </div>
+                  </div>
+
+                  <div class="page">
+                      <p class="date">Date:</p>
+                      <div class="text-content">
+                          <span class="support-deco top-left">✨</span>
+                          <span class="support-deco top-right">✨</span>
+                          <p class="handwriting">Nanti kalo bumi jahat</p>
+                          <p class="handwriting">sama kamu, kamu harus</p>
+                          <p class="handwriting">tetep <span class="pink-text">sabar</span>, tetep <span class="pink-text">kuat</span></p>
+                          <p class="handwriting">aku selalu support kamu &lt;33</p>
+                          <p class="handwriting">Kamu harus, tetep jadi</p>
+                          <p class="handwriting"><span style="border: 2px solid blue; border-radius: 10px; padding: 2px 8px;">laki-laki</span> yang aku kenal</p>
+                          <p class="handwriting"><span style="border-bottom: 2px solid red;">Kamu adalah favoritku yeyyy...</span></p>
+                          <span class="support-deco bottom-left">✨</span>
+                          <span class="support-deco bottom-right">✨</span>
+                          <span class="paper-plane">✈️</span>
+                      </div>
+                  </div>
+
+                  <div class="page">
+                      <p class="date">Date:</p>
+                      <div class="text-content">
+                          <div class="rainbow-container">
+                              <div class="rainbow"></div>
+                              <div class="rainbow"></div>
+                          </div>
+                          <p class="handwriting">Jika langit</p>
+                          <p class="handwriting">mempunyai pelangi</p>
+                          <p class="handwriting">yang berwarna warni.</p>
+                          <p class="handwriting">Kamu punya aku </p>
+                          <p class="handwriting">sebagai warna warnimu.</p>
+                      </div>
+                  </div>
+
+                  <div class="page">
+                      <p class="date">Date:</p>
+                      <div class="text-content">
+                          <div style="border: 1px solid black; padding: 5px 15px; display: inline-block; margin-bottom: 20px; position: relative;">
+                              <span style="position: absolute; top: -10px; left: -10px;">🌷</span>
+                              <span style="position: absolute; top: -10px; right: -10px;">🌷</span>
+                              <p class="handwriting" style="font-size: 1.2em; margin: 0;">SEMPURNA</p>
+                              <p class="handwriting" style="font-size: 0.8em; margin: 0;">♡o. O♡</p>
+                          </div>
+                          <p class="handwriting">Kamu kaya lagu ini</p>
+                          <p class="handwriting">senyum kamu</p>
+                          <p class="handwriting">cara berfikir kamu</p>
+                          <p class="handwriting">tingkah kamu</p>
+                          <p class="handwriting">semuanya tentang kamu "SEMPURNA"</p>
+                          <div class="hourglass-container">
+                              <div class="hourglass">
+                                  <span class="heart-inside">💐</span>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="page">
+                      <p class="date">Date:</p>
+                      <div class="text-content">
+                          <p class="handwriting large">Semangat! </p>
+                          <p class="handwriting large">Semangat! </p>
+                          <p class="handwriting large">Semangat!️ </p>
+                          <p class="handwriting large">Semangat! </p>
+                          <p class="handwriting large">Semangat! </p>
+                      </div>
+                  </div>
+
+                  <div class="page">
+                      <p class="date">Date:</p>
+                      <div class="text-content">
+                          <p class="handwriting" style="font-size: 1.5em; text-decoration: underline;">_ _ _ !!!</p>
+                          <p class="handwriting">Aku langitkan doa</p>
+                          <p class="handwriting">terbaik untukmu...</p>
+                          <p class="handwriting">Semoga hal-hal yang</p>
+                          <p class="handwriting">membuat kamu runtuh</p>
+                          <p class="handwriting">turut menjadi alasan</p>
+                          <p class="handwriting">kamu tumbuh.</p>
+                          <p class="handwriting" style="font-size: 2em; margin-top: 20px;">🌟</p>
+                      </div>
+                  </div>
+
+            </div>
+ 
+            <div class="next-prev-buttons">
+                  <button onclick="prevSlide()">&#10094;</button>
+                  <button onclick="nextSlide()">&#10095;</button>
+            </div>
+      </div>
+ 
+      <script>
+            const slider = document.getElementById('slider');
+            const pages = document.querySelectorAll('.page');
+            let currentIndex = 0;
+ 
+            function updateSliderPosition() {
+                  const pageWidth = pages[0].offsetWidth; 
+                  slider.style.transform = `translateX(-${currentIndex * pageWidth}px)`;
+            }
+ 
+            function nextSlide() {
+                  if (currentIndex < pages.length - 1) {
+                        currentIndex++;
+                  } else {
+                        currentIndex = 0; // Kembali ke awal jika sudah di akhir
+                  }
+                  updateSliderPosition();
+            }
+ 
+            function prevSlide() {
+                  if (currentIndex > 0) {
+                        currentIndex--;
+                  } else {
+                        currentIndex = pages.length - 1; // Kembali ke akhir jika sudah di awal
+                  }
+                  updateSliderPosition();
+            }
+ 
+            // Untuk responsivitas, perbarui posisi saat ukuran jendela berubah
+            window.addEventListener('resize', updateSliderPosition);
+ 
+            // Tambahkan event listener untuk drag/swipe pada desktop/mobile
+            let startX;
+            let isDragging = false;
+            let startTransformX = 0;
+ 
+            slider.addEventListener('mousedown', (e) => {
+                  isDragging = true;
+                  startX = e.clientX;
+                  const transformMatch = window.getComputedStyle(slider).transform.match(/translateX\(([^)]+)px\)/);
+                  startTransformX = transformMatch ? parseFloat(transformMatch[1]) : 0;
+                  slider.style.transition = 'none'; // Hapus transisi saat dragging
+            });
+ 
+            slider.addEventListener('mousemove', (e) => {
+                  if (!isDragging) return;
+                  const diffX = e.clientX - startX;
+                  slider.style.transform = `translateX(${startTransformX + diffX}px)`;
+            });
+ 
+            slider.addEventListener('mouseup', (e) => {
+                  if (!isDragging) return;
+                  isDragging = false;
+                  slider.style.transition = 'transform 0.5s ease-in-out';
+                  const endX = e.clientX;
+                  const diffX = endX - startX;
+                  const pageWidth = pages[0].offsetWidth;
+ 
+                  if (diffX > pageWidth * 0.25) { // Geser ke kanan (prev) jika lebih dari 25% lebar halaman
+                        prevSlide();
+                  } else if (diffX < -pageWidth * 0.25) { // Geser ke kiri (next) jika lebih dari 25% lebar halaman
+                        nextSlide();
+                  } else {
+                        updateSliderPosition(); // Kembali ke posisi semula jika tidak cukup geser
+                  }
+            });
+ 
+            slider.addEventListener('mouseleave', () => {
+                  if (isDragging) {
+                        isDragging = false;
+                        slider.style.transition = 'transform 0.5s ease-in-out';
+                        updateSliderPosition();
+                  }
+            });
+ 
+            // Touch events untuk perangkat mobile
+            slider.addEventListener('touchstart', (e) => {
+                  startX = e.touches[0].clientX;
+                  const transformMatch = window.getComputedStyle(slider).transform.match(/translateX\(([^)]+)px\)/);
+                  startTransformX = transformMatch ? parseFloat(transformMatch[1]) : 0;
+                  slider.style.transition = 'none';
+            });
+ 
+            slider.addEventListener('touchmove', (e) => {
+                  const diffX = e.touches[0].clientX - startX;
+                  slider.style.transform = `translateX(${startTransformX + diffX}px)`;
+            });
+ 
+            slider.addEventListener('touchend', (e) => {
+                  slider.style.transition = 'transform 0.5s ease-in-out';
+                  const endX = e.changedTouches[0].clientX;
+                  const diffX = endX - startX;
+                  const pageWidth = pages[0].offsetWidth;
+ 
+                  if (diffX > pageWidth * 0.25) {
+                        prevSlide();
+                  } else if (diffX < -pageWidth * 0.25) {
+                        nextSlide();
+                  } else {
+                        updateSliderPosition();
+                  }
+            });
+ 
+            // Inisialisasi posisi slider
+            updateSliderPosition();
+      </script>
+ </body>
+ </html>
