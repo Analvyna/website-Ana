@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Menu Konversi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Fredoka', sans-serif;
+      background-color: #fdf6ee;
+      background-image: 
+        repeating-linear-gradient(0deg, transparent, transparent 29px, rgba(0,0,0,0.05) 30px),
+        repeating-linear-gradient(90deg, transparent, transparent 29px, rgba(0,0,0,0.05) 30px);
+      background-size: 30px 30px;
+    }
+
+    .container {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .card {
+      background-color: #fffaf4;
+      padding: 50px 30px;
+      border-radius: 35px;
+      text-align: center;
+      box-shadow: none;
+      width: 90%;
+      max-width: 350px;
+    }
+
+    .card h2 {
+      font-size: 28px;
+      color: #333;
+      font-weight: 700;
+      margin-bottom: 40px;
+    }
+
+    .btn {
+      display: block;
+      background-color: #e8a8f8;
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+      padding: 20px;
+      margin: 25px 0;
+      text-decoration: none;
+      border-radius: 30px;
+      box-shadow: 0 12px 30px rgba(186, 109, 255, 0.6);
+      transition: 0.2s ease-in-out;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      background-color: #d187f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h2>silahkan memilih<br>dibawah</h2>
+      <a href="konversi_mata_uang.html" class="btn">KONVERSI<br>MATA UANG</a>
+      <a href="konversi_suhu_fix.html" class="btn">KONVERSI<br>SUHU</a>
+      <a href="konversi_bilangan.html" class="btn">KONVERSI<br>BILANGAN</a>
+    </div>
+  </div>
+</body>
+</html>

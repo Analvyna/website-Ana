@@ -1,0 +1,258 @@
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #FDF4E3; /* Warna krem muda */
+    font-family: 'Open Sans', sans-serif;
+    position: relative;
+    overflow: hidden; /* Mencegah bunga-bunga menyebabkan scrollbar */
+}
+
+.container {
+    width: 100%;
+    max-width: 380px; /* Lebar perkiraan berdasarkan gambar */
+    background-color: #FDF4E3;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    border-radius: 20px; /* Sedikit lengkungan untuk kontainer keseluruhan jika diperlukan */
+    box-shadow: 0 0 20px rgba(0,0,0,0.05); /* Bayangan tipis untuk kontainer utama */
+}
+
+.welcome-text {
+    font-family: 'Fredoka One', cursive; /* Font yang mirip dengan gambar */
+    font-size: 5.5em; /* Ukuran DEFAULT untuk desktop/layar lebar */
+    color: #8C6A9F; /* Warna ungu */
+    text-align: center;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.1); /* Bayangan tipis */
+    margin-top: 30px;
+}
+
+.welcome-text .welcome-line,
+.welcome-text .to-line {
+    display: block; /* MEMBUAT 'WELCOME' dan 'TO' di baris TERPISAH */
+    white-space: nowrap; /* MENCEGAH 'WELCOME' dan 'TO' pecah ke baris berikutnya */
+    line-height: 0.8; /* Mengatur jarak vertikal antar baris WELCOME dan TO */
+    width: fit-content; /* Memastikan lebar elemen hanya selebar kontennya */
+    margin-left: auto; /* Untuk menengahkan elemen block yang lebarnya fit-content */
+    margin-right: auto; /* Untuk menengahkan elemen block yang lebarnya fit-content */
+}
+
+.welcome-text .char {
+    display: inline-block; /* Ini untuk memungkinkan rotasi setiap huruf */
+    /* Pastikan tidak ada margin horizontal yang terlalu besar di sini */
+    letter-spacing: -17px;
+}
+
+/* Atur rotasi untuk setiap huruf "WELCOME" - sesuaikan nilai rotasi ini! */
+.welcome-text .w { transform: rotate(-10deg); }
+.welcome-text .e1 { transform: rotate(-5deg); }
+.welcome-text .l { transform: rotate(0deg); }
+.welcome-text .c { transform: rotate(5deg); }
+.welcome-text .o { transform: rotate(10deg); }
+.welcome-text .m { transform: rotate(5deg); }
+.welcome-text .e2 { transform: rotate(0deg); }
+
+/* Atur rotasi untuk setiap huruf "TO" - sesuaikan nilai rotasi ini! */
+.welcome-text .t { transform: rotate(-5deg); }
+.welcome-text .o3 { transform: rotate(5deg); }
+
+
+.Konversi-text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.5em;
+    color: #6C5478; /* Ungu yang sedikit lebih gelap untuk "Configuration" */
+    margin-top: 10px; /* Beri jarak positif dari "TO" */
+    font-weight: bold;
+}
+
+.subtitle-box {
+    background-color: #F891B1; /* Pink */
+    color: white;
+    padding: 10px 25px;
+    border-radius: 25px;
+    margin: 20px 0;
+    font-weight: bold;
+    font-size: 1.1em;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.grid-background {
+    width: 90%;
+    max-width: 300px;
+    height: 350px; /* Sesuaikan tinggi sesuai kebutuhan */
+    background-image:
+        linear-gradient(to right, #e0e0e0 1px, transparent 1px),
+        linear-gradient(to bottom, #e0e0e0 1px, transparent 1px);
+    background-size: 25px 25px; /* Ukuran sel grid */
+    background-color: #fcfaf8; /* Warna putih gading untuk latar belakang grid */
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05); /* Bayangan dalam untuk kedalaman */
+}
+
+.masuk-box {
+    background-color: #E2BFFF; /* Ungu muda */
+    padding: 30px 40px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.masuk-text {
+    font-size: 3em;
+    color: #6C5478; /* Ungu yang lebih gelap untuk "Masuk" */
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.klik-button {
+    display: inline-block;
+    background-color: #F891B1; /* Pink */
+    color: white;
+    padding: 10px 40px;
+    border-radius: 25px;
+    text-decoration: none; /* Hapus garis bawah dari tautan */
+    font-weight: bold;
+    font-size: 1.5em;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease;
+}
+
+.klik-button:hover {
+    background-color: #E67A9C; /* Pink yang sedikit lebih gelap saat di-hover */
+}
+
+.footer-box {
+    background-color: #F9E0C1; /* Krem/persik yang lebih cerah */
+    color: #8C6A9F; /* Ungu */
+    padding: 10px 20px;
+    border-radius: 25px;
+    margin-top: 30px;
+    font-size: 1em;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Bunga-bunga dekorasi (menggunakan Font Awesome) */
+.flower-icon-top-left,
+.flower-icon-top-right,
+.flower-icon-bottom-left,
+.flower-icon-bottom-right {
+    position: absolute;
+    font-size: 30px; /* Ukuran ikon bunga */
+    color: #F891B1; /* Warna pink */
+    opacity: 0.7;
+}
+
+.flower-icon-top-left {
+    top: 60px; /* Sesuaikan posisi sesuai keinginan */
+    left: 30px; /* Sesuaikan posisi sesuai keinginan */
+}
+
+.flower-icon-top-right {
+    top: 60px; /* Sesuaikan posisi sesuai keinginan */
+    right: 30px; /* Sesuaikan posisi sesuai keinginan */
+}
+
+.flower-icon-bottom-left {
+    bottom: 30px; /* Sesuaikan posisi sesuai keinginan */
+    left: 30px; /* Sesuaikan posisi sesuai keinginan */
+}
+
+.flower-icon-bottom-right {
+    bottom: 30px; /* Sesuaikan posisi sesuai keinginan */
+    right: 30px; /* Sesuaikan posisi sesuai keinginan */
+}
+
+/* Penyesuaian responsif */
+@media (max-width: 480px) { /* Untuk ponsel ukuran standar (potret) */
+    .welcome-text {
+        font-size: 3.8em; /* Sedikit lebih kecil dari 4.5em, mungkin cukup */
+    }
+
+    /* Rotasi karakter bisa sedikit lebih landai untuk font lebih kecil */
+    .welcome-text .w { transform: rotate(-7deg); }
+    .welcome-text .e1 { transform: rotate(-3deg); }
+    .welcome-text .l { transform: rotate(0deg); }
+    .welcome-text .c { transform: rotate(3deg); }
+    .welcome-text .o { transform: rotate(7deg); }
+    .welcome-text .m { transform: rotate(3deg); }
+    .welcome-text .e2 { transform: rotate(0deg); }
+
+    .welcome-text .t { transform: rotate(-3deg); }
+    .welcome-text .o3 { transform: rotate(3deg); }
+
+    .configuration-text {
+        font-size: 1.2em;
+        margin-top: 5px; /* Sesuaikan jarak di layar kecil */
+    }
+
+    .subtitle-box {
+        padding: 8px 20px;
+        font-size: 1em;
+    }
+
+    .masuk-text {
+        font-size: 2.5em;
+    }
+
+    .klik-button {
+        padding: 8px 30px;
+        font-size: 1.3em;
+    }
+
+    .flower-icon-top-left,
+    .flower-icon-top-right,
+    .flower-icon-bottom-left,
+    .flower-icon-bottom-right {
+        font-size: 25px; /* Ukuran bunga lebih kecil di layar kecil */
+    }
+    .flower-icon-top-left { top: 40px; left: 15px; }
+    .flower-icon-top-right { top: 40px; right: 15px; }
+    .flower-icon-bottom-left { bottom: 15px; left: 15px; }
+    .flower-icon-bottom-right { bottom: 15px; right: 15px; }
+}
+
+@media (max-width: 375px) { /* Untuk ponsel seperti iPhone X/XR/11/12/13/14, Pixel 3/4 */
+    .welcome-text {
+        font-size: 3.5em; /* Kurangi lagi jika masih pecah */
+    }
+    /* Rotasi karakter juga mungkin perlu disesuaikan lebih landai */
+    .welcome-text .w { transform: rotate(-6deg); }
+    .welcome-text .e1 { transform: rotate(-2.5deg); }
+    .welcome-text .l { transform: rotate(0deg); }
+    .welcome-text .c { transform: rotate(2.5deg); }
+    .welcome-text .o { transform: rotate(6deg); }
+    .welcome-text .m { transform: rotate(2.5deg); }
+    .welcome-text .e2 { transform: rotate(0deg); }
+
+    .welcome-text .t { transform: rotate(-2.5deg); }
+    .welcome-text .o3 { transform: rotate(2.5deg); }
+}
+
+@media (max-width: 320px) { /* Untuk layar yang sangat kecil (misal iPhone SE lama, dll.) */
+    .welcome-text {
+        font-size: 3em; /* Kurangi font lebih jauh lagi */
+    }
+    /* Rotasi karakter juga mungkin perlu disesuaikan lebih landai */
+    .welcome-text .w { transform: rotate(-5deg); }
+    .welcome-text .e1 { transform: rotate(-2deg); }
+    .welcome-text .l { transform: rotate(0deg); }
+    .welcome-text .c { transform: rotate(2deg); }
+    .welcome-text .o { transform: rotate(5deg); }
+    .welcome-text .m { transform: rotate(2deg); }
+    .welcome-text .e2 { transform: rotate(0deg); }
+
+    .welcome-text .t { transform: rotate(-2deg); }
+    .welcome-text .o3 { transform: rotate(2deg); }
+}

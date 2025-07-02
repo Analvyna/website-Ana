@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konversi Suhu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #F8F0E3; /* Warna krem dari desain utama */
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+
+            /* Latar belakang grid */
+            background-image:
+                linear-gradient(to right, #f0f0f0 1px, transparent 1px),
+                linear-gradient(to bottom, #f0f0f0 1px, transparent 1px);
+            background-size: 20px 20px; /* Ukuran kotak grid yang rapat */
+            background-position: 0 0;
+        }
+
+        /* Bentuk ungu di sudut kiri bawah (opsional, disesuaikan agar konsisten) */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            bottom: -40px;
+            left: -40px;
+            background-color: #E0BBE4; /* Ungu muda */
+            border-radius: 20px;
+            opacity: 0.6;
+            transform: rotate(-20deg);
+            filter: blur(10px);
+            z-index: 0;
+        }
+
+        .converter-card {
+            background-color: #fffaf4; /* Latar belakang krem muda untuk kotak konverter */
+            padding: 30px;
+            border-radius: 15px; /* Sudut membulat yang konsisten */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Bayangan yang lebih menonjol */
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            z-index: 1; /* Pastikan di atas elemen body::before */
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            color: #FF69B4; /* Warna pink untuk judul */
+            margin-bottom: 25px;
+            font-size: 2em; /* Ukuran judul */
+            font-weight: 700;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555; /* Teks label abu-abu */
+            font-weight: 600;
+        }
+
+        input[type="number"],
+        select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: none; /* Hilangkan border default */
+            border-radius: 10px; /* Sudut membulat */
+            background-color: #E6E6FA; /* Ungu muda untuk input dan select */
+            font-family: 'Nunito', sans-serif;
+            font-size: 1em;
+            color: #333;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bayangan ringan */
+            box-sizing: border-box;
+            outline: none; /* Hilangkan outline saat fokus */
+        }
+
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%23555555" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 20px;
+            cursor: pointer;
+        }
+
+        button {
+            background: linear-gradient(to right, #E0BBE4, #FFB6C1); /* Gradasi ungu ke pink untuk tombol konversi */
+            color: #555; /* Teks abu-abu pada tombol */
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px; /* Sudut membulat */
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2em;
+            font-weight: 700;
+            margin-top: 20px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Bayangan yang lebih jelas */
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px); /* Efek sedikit naik */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .result-area {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #E6E6FA; /* Ungu muda untuk area hasil */
+            border-radius: 10px;
+            color: #333;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.3em;
+            font-weight: 600;
+            min-height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bayangan ringan */
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 15px;
+            background-color: #FFB6C1; /* Warna pink untuk tombol kembali */
+            color: #555; /* Teks abu-abu */
+            border-radius: 10px;
+            text-decoration: none;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1em;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button:hover {
+            background-color: #E0BBE4; /* Ungu muda saat hover */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <div class="converter-card">
+        <h1>KONVERSI SUHU</h1>
+
+        <div class="input-group">
+            <label for="inputTemp">Nilai Suhu:</label>
+            <input type="number" id="inputTemp" placeholder="Masukkan angka">
+        </div>
+
+        <div class="input-group">
+            <label for="fromUnit">Dari Satuan:</label>
+            <select id="fromUnit">
+                <option value="celsius">Celsius (°C)</option>
+                <option value="fahrenheit">Fahrenheit (°F)</option>
+                <option value="kelvin">Kelvin (K)</option>
+                <option value="reamur">Reamur (°R)</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="toUnit">Ke Satuan:</label>
+            <select id="toUnit">
+                <option value="fahrenheit">Fahrenheit (°F)</option>
+                <option value="celsius">Celsius (°C)</option>
+                <option value="kelvin">Kelvin (K)</option>
+                <option value="reamur">Reamur (°R)</option>
+            </select>
+        </div>
+
+        <button onclick="convertTemperature()">KONVERSI</button>
+
+        <div class="result-area">
+            <span id="result">Hasil: 0</span>
+        </div>
+
+        <a href="next_page.html" class="back-button">Kembali</a>
+    </div>
+
+    <script>
+        // Fungsi untuk melakukan konversi suhu dan menampilkan hasilnya
+        function convertTemperature() {
+            // Mengambil nilai dari input suhu dan mengubahnya menjadi angka (floating-point)
+            const inputTemp = parseFloat(document.getElementById('inputTemp').value);
+            // Mengambil satuan asal yang dipilih
+            const fromUnit = document.getElementById('fromUnit').value;
+            // Mengambil satuan tujuan yang dipilih
+            const toUnit = document.getElementById('toUnit').value;
+            // Mendapatkan elemen tempat hasil akan ditampilkan
+            const resultElement = document.getElementById('result');
+
+            // Memeriksa apakah input suhu adalah angka yang valid
+            if (isNaN(inputTemp)) {
+                resultElement.textContent = "Hasil: Masukkan angka yang valid!";
+                return; // Berhenti jika input tidak valid
+            }
+
+            let tempInCelsius; // Variabel untuk menyimpan suhu setelah dikonversi ke Celsius
+
+            // Langkah 1: Konversi suhu dari satuan asal ke Celsius sebagai basis perhitungan
+            switch (fromUnit) {
+                case 'celsius':
+                    tempInCelsius = inputTemp;
+                    break;
+                case 'fahrenheit':
+                    tempInCelsius = (inputTemp - 32) * 5 / 9;
+                    break;
+                case 'kelvin':
+                    tempInCelsius = inputTemp - 273.15;
+                    break;
+                case 'reamur':
+                    tempInCelsius = inputTemp * 5 / 4;
+                    break;
+                default:
+                    // Ini seharusnya tidak terjadi jika opsi select sudah ditentukan
+                    resultElement.textContent = "Hasil: Satuan asal tidak valid.";
+                    return;
+            }
+
+            let finalResult; // Variabel untuk menyimpan hasil akhir konversi
+            let unitSymbol;  // Variabel untuk menyimpan simbol satuan
+
+            // Langkah 2: Konversi suhu dari Celsius ke satuan tujuan
+            switch (toUnit) {
+                case 'celsius':
+                    finalResult = tempInCelsius;
+                    unitSymbol = "°C";
+                    break;
+                case 'fahrenheit':
+                    finalResult = (tempInCelsius * 9 / 5) + 32;
+                    unitSymbol = "°F";
+                    break;
+                case 'kelvin':
+                    finalResult = tempInCelsius + 273.15;
+                    unitSymbol = "K";
+                    break;
+                case 'reamur':
+                    finalResult = tempInCelsius * 4 / 5;
+                    unitSymbol = "°R";
+                    break;
+                default:
+                    // Ini seharusnya tidak terjadi jika opsi select sudah ditentukan
+                    resultElement.textContent = "Hasil: Satuan tujuan tidak valid.";
+                    return;
+            }
+
+            // Menampilkan hasil akhir di elemen 'result' dengan 2 angka di belakang koma dan simbol satuan
+            resultElement.textContent = `Hasil: ${finalResult.toFixed(2)} ${unitSymbol}`;
+        }
+    </script>
+</body>
+</html>

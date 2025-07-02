@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konversi Mata Uang</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS akan diletakkan di sini */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f7f3f9; /* Mirip background di gambar */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ff69b4; /* Warna pink cerah */
+            font-size: 2em;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        input[type="number"],
+        select {
+            width: calc(100% - 20px);
+            padding: 12px 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus,
+        select:focus {
+            border-color: #ff69b4;
+        }
+
+        .button-group {
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 100%;
+        }
+
+        button.primary {
+            background: linear-gradient(to right, #ff99cc, #ff69b4); /* Gradient pink */
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        button.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+        }
+
+        button.secondary {
+            background-color: #e0e0e0; /* Warna abu-abu terang */
+            color: #555;
+        }
+
+        button.secondary:hover {
+            background-color: #d0d0d0;
+        }
+
+        .result-box {
+            background-color: #f0e6f2; /* Warna ungu muda */
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #333;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>KONVERSI MATA UANG</h1>
+
+        <div class="form-group">
+            <label for="amount">Jumlah Mata Uang:</label>
+            <input type="number" id="amount" placeholder="Masukkan angka" value="1">
+        </div>
+
+        <div class="form-group">
+            <label for="fromCurrency">Dari Satuan:</label>
+            <select id="fromCurrency">
+                <option value="USD">USD ($)</option>
+                <option value="MYR">MYR (RM)</option>
+                <option value="CNY">CNY (¥)</option>
+                <option value="JPY">JPY (¥)</option>
+                <option value="EUR">EUR (€)</option>
+                <option value="IDR">IDR (Rp)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="toCurrency">Ke Satuan:</label>
+            <select id="toCurrency">
+                <option value="IDR">IDR (Rp)</option>
+                <option value="USD">USD ($)</option>
+                <option value="MYR">MYR (RM)</option>
+                <option value="CNY">CNY (¥)</option>
+                <option value="JPY">JPY (¥)</option>
+                <option value="EUR">EUR (€)</option>
+            </select>
+        </div>
+
+        <div class="button-group">
+            <button class="primary" onclick="convertCurrency()">KONVERSI</button>
+        </div>
+
+        <div class="result-box">
+            Hasil: <span id="result">0</span>
+        </div>
+
+        <div class="button-group">
+            <button class="secondary" onclick="goBackToHomePage()">Kembali</button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript akan diletakkan di sini
+        // Objek nilai tukar relatif terhadap IDR (Rupiah Indonesia)
+        // PENTING: Nilai-nilai ini adalah CONTOH dan STATIS.
+        // Dalam aplikasi nyata, Anda HARUS mengambil data ini dari API nilai tukar real-time.
+        const exchangeRates = {
+            USD: 16400, // 1 USD = 16400 IDR (contoh)
+            MYR: 3500,  // 1 MYR = 3500 IDR (contoh)
+            CNY: 2200,  // 1 CNY = 2200 IDR (contoh)
+            JPY: 104,   // 1 JPY = 104 IDR (contoh)
+            EUR: 17800, // 1 EUR = 17800 IDR (contoh)
+            IDR: 1      // 1 IDR = 1 IDR
+        };
+
+        function convertCurrency() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            const fromCurrency = document.getElementById('fromCurrency').value;
+            const toCurrency = document.getElementById('toCurrency').value;
+            const resultElement = document.getElementById('result');
+
+            if (isNaN(amount) || amount <= 0) {
+                resultElement.textContent = "Masukkan angka valid";
+                return;
+            }
+
+            let amountInIDR;
+            let convertedAmount;
+
+            // Step 1: Konversi mata uang asal ke IDR
+            if (fromCurrency === 'IDR') {
+                amountInIDR = amount;
+            } else {
+                if (exchangeRates[fromCurrency]) {
+                    amountInIDR = amount * exchangeRates[fromCurrency];
+                } else {
+                    resultElement.textContent = "Mata uang asal tidak dikenal";
+                    return;
+                }
+            }
+
+            // Step 2: Konversi dari IDR ke mata uang tujuan
+            if (toCurrency === 'IDR') {
+                convertedAmount = amountInIDR;
+            } else {
+                if (exchangeRates[toCurrency]) {
+                    convertedAmount = amountInIDR / exchangeRates[toCurrency];
+                } else {
+                    resultElement.textContent = "Mata uang tujuan tidak dikenal";
+                    return;
+                }
+            }
+            
+            // Format hasil dengan 2 angka di belakang koma untuk mata uang non-IDR,
+            // atau bilangan bulat untuk IDR jika jumlahnya besar (opsional, bisa tetap toFixed(2))
+            let formattedResult;
+            if (toCurrency === 'IDR') {
+                 // Untuk IDR, kita bisa membulatkan atau tetap 2 desimal tergantung preferensi
+                formattedResult = Math.round(convertedAmount).toLocaleString('id-ID'); // Contoh: 16.400
+            } else {
+                formattedResult = convertedAmount.toFixed(2);
+            }
+
+            resultElement.textContent = formattedResult + " " + toCurrency;
+        }
+
+        // FUNGSI INI YANG DIUBAH
+        function goBackToHomePage() {
+            window.location.href = 'next_page.html'; // Mengarahkan ke next_page.html
+        }
+
+        // Panggil convertCurrency saat halaman pertama kali dimuat
+        document.addEventListener('DOMContentLoaded', convertCurrency);
+    </script>
+</body>
+</html>
